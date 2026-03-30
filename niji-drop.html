@@ -6,11 +6,12 @@
 <title>雨のメロディ</title>
 <link href="https://fonts.googleapis.com/css2?family=Kosugi+Maru&family=Nunito:wght@900&display=swap" rel="stylesheet">
 <style>
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;touch-action:manipulation}
 :root{--gap:14px}
 body{font-family:'Kosugi Maru',sans-serif;background:#0d1b33;
   display:flex;flex-direction:column;align-items:center;
-  min-height:100vh;overflow:hidden;user-select:none}
+  min-height:100vh;overflow:hidden;user-select:none;
+  -webkit-user-select:none;-webkit-tap-highlight-color:transparent;}
 
 #sky{position:fixed;inset:0;z-index:0;transition:background 1.8s ease}
 #flash{position:fixed;inset:0;z-index:50;pointer-events:none;opacity:0;transition:opacity .08s}
@@ -182,7 +183,7 @@ body{font-family:'Kosugi Maru',sans-serif;background:#0d1b33;
 #clear-overlay{position:fixed;inset:0;z-index:200;display:none;flex-direction:column;
   align-items:center;justify-content:center;overflow:hidden}
 #clear-sky{position:absolute;inset:0;background:linear-gradient(180deg,#0a1e50,#1a3a80 50%,#2a5080);transition:background 1.8s}
-#rainbow-svg{position:absolute;width:200%;left:-50%;bottom:28%;pointer-events:none;opacity:0}
+#rainbow-svg{position:absolute;width:200%;left:-50%;bottom:22%;pointer-events:none;opacity:0}
 #rainbow-svg.show{animation:rbow 1.2s .3s ease forwards}
 @keyframes rbow{0%{opacity:0;transform:scaleY(0) translateY(60px)}60%{opacity:1;transform:scaleY(1.08) translateY(-4px)}100%{opacity:1;transform:scaleY(1) translateY(0)}}
 .spark{position:absolute;border-radius:50%;pointer-events:none;animation:spark-pop var(--sd,1s) var(--delay,0s) ease-out both}
@@ -191,57 +192,59 @@ body{font-family:'Kosugi Maru',sans-serif;background:#0d1b33;
 #clear-content{
   position:relative;z-index:5;
   display:flex;flex-direction:column;align-items:center;
-  gap:10px;padding:20px 18px;
-  width:100%;max-width:380px;
+  gap:8px;padding:16px 16px 20px;
+  width:100%;max-width:360px;
 }
 
-/* 💧 発見！ — hero */
+/* 💧 発見！ — hero（コンパクト化） */
 #clear-drop-hero{
-  display:flex;flex-direction:column;align-items:center;gap:6px;
+  display:flex;flex-direction:row;align-items:center;justify-content:center;gap:12px;
   animation:drop-hero-in .7s .1s cubic-bezier(.34,1.56,.64,1) both;opacity:0;
-  background:rgba(0,20,60,.55);border-radius:24px;
-  padding:18px 32px 14px;width:100%;
-  border:1px solid rgba(100,180,255,.25);
+  background:rgba(0,20,60,.58);border-radius:20px;
+  padding:14px 24px;width:100%;
+  border:1px solid rgba(100,180,255,.28);
 }
 @keyframes drop-hero-in{
   0%  {opacity:0;transform:scale(.2) translateY(30px)}
-  60% {opacity:1;transform:scale(1.06) translateY(-4px)}
+  60% {opacity:1;transform:scale(1.05) translateY(-3px)}
   100%{opacity:1;transform:scale(1) translateY(0)}}
-#clear-drop-icon{font-size:68px;filter:drop-shadow(0 0 22px rgba(100,200,255,.9));
-  animation:drop-pulse 1.8s ease-in-out infinite}
+#clear-drop-icon{font-size:52px;filter:drop-shadow(0 0 18px rgba(100,200,255,.9));
+  animation:drop-pulse 1.8s ease-in-out infinite;flex-shrink:0}
 @keyframes drop-pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.1)}}
+#clear-drop-texts{display:flex;flex-direction:column;gap:3px;text-align:left}
 #clear-drop-label{
-  font-size:24px;font-weight:700;color:#ffffff;
-  text-shadow:0 0 20px rgba(120,200,255,1),0 0 40px rgba(100,180,255,.7);
-  letter-spacing:.04em;
-  animation:drop-hero-in .7s .3s cubic-bezier(.34,1.56,.64,1) both;opacity:0}
+  font-size:20px;font-weight:700;color:#ffffff;
+  text-shadow:0 0 18px rgba(120,200,255,1),0 0 36px rgba(100,180,255,.7);
+  letter-spacing:.03em;
+  animation:drop-hero-in .7s .25s cubic-bezier(.34,1.56,.64,1) both;opacity:0}
 #clear-drop-sub{
-  font-size:13px;color:rgba(160,210,255,.85);
-  animation:ov-txt .5s .8s ease both;opacity:0}
+  font-size:12px;color:rgba(160,210,255,.85);
+  animation:ov-txt .5s .7s ease both;opacity:0}
 
 /* story — 非表示 */
 #clear-story{display:none}
 
-/* voices — 5件対応、少しコンパクトに */
-#voices-wrap{display:flex;flex-direction:column;gap:5px;width:100%;max-width:330px}
+/* voices — コンパクト */
+#voices-wrap{display:flex;flex-direction:column;gap:4px;width:100%;max-width:340px}
 .voice-bub{
-  background:rgba(0,15,45,.65);
-  border:1px solid rgba(255,255,255,.18);
-  border-radius:13px;padding:7px 13px;
-  display:flex;align-items:flex-start;gap:9px;
-  opacity:0;animation:vbub .5s ease forwards}
-@keyframes vbub{from{opacity:0;transform:translateY(10px) scale(.92)}to{opacity:1;transform:translateY(0) scale(1)}}
-.v-icon{font-size:19px;flex-shrink:0;padding-top:1px}
-.v-text{font-size:12px;line-height:1.55;color:rgba(220,240,255,.95);text-shadow:0 1px 3px rgba(0,0,0,.7)}
+  background:rgba(0,15,45,.68);
+  border:1px solid rgba(255,255,255,.16);
+  border-radius:12px;padding:6px 12px;
+  display:flex;align-items:center;gap:8px;
+  opacity:0;animation:vbub .45s ease forwards}
+@keyframes vbub{from{opacity:0;transform:translateY(8px) scale(.93)}to{opacity:1;transform:translateY(0) scale(1)}}
+.v-icon{font-size:18px;flex-shrink:0}
+.v-text{font-size:11.5px;line-height:1.5;color:rgba(220,240,255,.95);text-shadow:0 1px 3px rgba(0,0,0,.7)}
 
 .next-btn{
   background:linear-gradient(135deg,#f39c12,#ffd97a);border:none;border-radius:999px;
   padding:11px 38px;font-family:'Kosugi Maru',sans-serif;font-size:15px;color:#3a1a00;
   cursor:pointer;box-shadow:0 0 22px rgba(243,156,18,.5);transition:transform .12s;
-  animation:ov-txt .6s 3.0s ease both;opacity:0;
-  text-shadow:none;font-weight:700;
+  animation:ov-txt .6s 2.8s ease both;opacity:0;
+  text-shadow:none;font-weight:700;flex-shrink:0;
+  touch-action:manipulation;
 }
-.next-btn:hover{transform:scale(1.04)}
+.next-btn:active{transform:scale(.95)}
 .rainbow-ring{position:fixed;border-radius:50%;border:3px solid transparent;pointer-events:none;z-index:190;animation:ring-ex 1.2s ease-out forwards}
 @keyframes ring-ex{0%{transform:translate(-50%,-50%) scale(0);opacity:1}100%{transform:translate(-50%,-50%) scale(1);opacity:0}}
 
@@ -275,54 +278,55 @@ body{font-family:'Kosugi Maru',sans-serif;background:#0d1b33;
 #ending-content{
   position:relative;z-index:5;
   display:flex;flex-direction:column;align-items:center;
-  gap:12px;padding:24px;width:100%;max-width:400px;
+  gap:9px;padding:20px 16px 24px;width:100%;max-width:380px;
   text-align:center;
 }
 #ending-nijiko{
-  font-size:80px;
+  font-size:72px;
   animation:ending-appear .8s .2s cubic-bezier(.34,1.56,.64,1) both;
   opacity:0;
-  filter:drop-shadow(0 0 24px rgba(80,200,80,.5));
+  filter:drop-shadow(0 0 20px rgba(80,200,80,.5));
 }
 @keyframes ending-appear{
   0%  {opacity:0;transform:scale(.2) translateY(40px)}
-  70% {opacity:1;transform:scale(1.15) translateY(-6px)}
+  70% {opacity:1;transform:scale(1.12) translateY(-5px)}
   100%{opacity:1;transform:scale(1) translateY(0)}
 }
 #ending-title{
-  font-size:22px;color:rgba(18,85,14,1);
-  text-shadow:0 1px 4px rgba(255,255,255,.8),0 0 16px rgba(100,220,60,.4);
+  font-size:21px;color:rgba(14,80,10,1);
+  text-shadow:0 1px 4px rgba(255,255,255,.85),0 0 14px rgba(80,200,40,.4);
   animation:ending-appear .7s .6s ease both;opacity:0;
-  line-height:1.5;
+  line-height:1.4;font-weight:700;
 }
 #ending-message{
-  font-size:14px;color:rgba(18,75,12,.9);
-  line-height:2;max-width:300px;
+  font-size:13px;color:rgba(14,72,10,.9);
+  line-height:1.9;max-width:280px;
   animation:ending-appear .7s 1s ease both;opacity:0;
   white-space:pre-line;
-  text-shadow:0 1px 3px rgba(255,255,255,.7);
+  text-shadow:0 1px 3px rgba(255,255,255,.75);
+  background:rgba(255,255,255,.45);border-radius:14px;padding:10px 16px;
 }
 #ending-voices{
-  display:flex;flex-direction:column;gap:7px;
+  display:flex;flex-direction:column;gap:5px;
   width:100%;max-width:320px;
-  margin-top:4px;
 }
 .end-voice{
-  background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);
-  border-radius:14px;padding:8px 14px;
-  display:flex;align-items:center;gap:9px;
-  opacity:0;animation:vbub .5s ease forwards;
+  background:rgba(255,255,255,.75);border:1px solid rgba(60,140,40,.25);
+  border-radius:12px;padding:7px 13px;
+  display:flex;align-items:center;gap:8px;
+  opacity:0;animation:vbub .45s ease forwards;
 }
 #ending-replay{
-  background:linear-gradient(135deg,#1a8fff,#7ee8ff);
-  border:none;border-radius:999px;padding:12px 40px;
-  font-family:'Kosugi Maru',sans-serif;font-size:16px;
-  color:#003a6b;cursor:pointer;margin-top:8px;
-  box-shadow:0 0 28px rgba(26,143,255,.6);
+  background:linear-gradient(135deg,#2a9e2a,#5ed45e);
+  border:none;border-radius:999px;padding:12px 38px;
+  font-family:'Kosugi Maru',sans-serif;font-size:15px;
+  color:#0a2a0a;cursor:pointer;margin-top:4px;
+  box-shadow:0 0 24px rgba(80,200,60,.5);
   transition:transform .12s;
-  animation:ending-appear .7s 3.5s ease both;opacity:0;
+  animation:ending-appear .7s 3.4s ease both;opacity:0;
+  font-weight:700;touch-action:manipulation;
 }
-#ending-replay:hover{transform:scale(1.05)}
+#ending-replay:active{transform:scale(.95)}
 #prologue{position:fixed;inset:0;z-index:310;background:#060e22;
   display:flex;flex-direction:column;align-items:center;justify-content:center;gap:13px;padding:24px;overflow:hidden}
 #pro-canvas{position:absolute;inset:0;width:100%;height:100%;z-index:0}
@@ -446,8 +450,10 @@ body{font-family:'Kosugi Maru',sans-serif;background:#0d1b33;
   <div id="clear-content">
     <div id="clear-drop-hero">
       <div id="clear-drop-icon">💧</div>
-      <div id="clear-drop-label">虹のしずく 発見！</div>
-      <div id="clear-drop-sub"></div>
+      <div id="clear-drop-texts">
+        <div id="clear-drop-label">虹のしずく 発見！</div>
+        <div id="clear-drop-sub"></div>
+      </div>
     </div>
     <div id="clear-story"></div>
     <div id="voices-wrap"></div>
@@ -1559,13 +1565,20 @@ const NOTES=[[523.25,587.33,659.25,783.99],[392,440,493.88,587.33],[329.63,369.9
 function playNote(lane,bucket){
   resumeCtx();const freq=NOTES[lane][bucket];
   const osc=actx.createOscillator(),gain=actx.createGain(),filt=actx.createBiquadFilter();
-  osc.type=bucket===0?'sine':bucket===1?'triangle':'sawtooth';
-  osc.frequency.setValueAtTime(freq,actx.currentTime);
-  filt.type='lowpass';filt.frequency.setValueAtTime(bucket===2?2000:bucket===3?600:4000,actx.currentTime);
-  gain.gain.setValueAtTime(0,actx.currentTime);gain.gain.linearRampToValueAtTime(.35,actx.currentTime+.02);
-  gain.gain.exponentialRampToValueAtTime(.001,actx.currentTime+(bucket===0?.8:.45));
+  // bucket0=perfect→sine柔らか、bucket1=good→triangle、bucket2=早い→bell系、bucket3=遅い→muted
+  osc.type=bucket===0?'sine':bucket===1?'triangle':bucket===2?'sine':'triangle';
+  const freqMod=bucket===2?freq*1.5:bucket===3?freq*.8:freq;
+  osc.frequency.setValueAtTime(freqMod,actx.currentTime);
+  filt.type='lowpass';
+  filt.frequency.setValueAtTime(bucket===0?6000:bucket===1?4500:bucket===2?3000:1200,actx.currentTime);
+  filt.Q.value=bucket===0?.5:1;
+  const vol=bucket===0?.28:bucket===1?.22:bucket===2?.18:bucket===3?.14:.20;
+  const dur=bucket===0?.9:bucket===1?.55:.38;
+  gain.gain.setValueAtTime(0,actx.currentTime);
+  gain.gain.linearRampToValueAtTime(vol,actx.currentTime+.018);
+  gain.gain.exponentialRampToValueAtTime(.001,actx.currentTime+dur);
   osc.connect(filt);filt.connect(gain);gain.connect(actx.destination);
-  osc.start(actx.currentTime);osc.stop(actx.currentTime+1);
+  osc.start(actx.currentTime);osc.stop(actx.currentTime+dur+.05);
 }
 function playJingle(){
   resumeCtx();
@@ -1591,11 +1604,11 @@ let bgmNodes=null;
 function startBGM(){
   resumeCtx();if(bgmNodes)return;
   const master=actx.createGain();master.gain.setValueAtTime(0,actx.currentTime);
-  master.gain.linearRampToValueAtTime(.7,actx.currentTime+2);master.connect(actx.destination);
+  master.gain.linearRampToValueAtTime(.45,actx.currentTime+2.5);master.connect(actx.destination);
   bgmNodes={master};
   function mkNoise(){const buf=actx.createBuffer(1,actx.sampleRate*2,actx.sampleRate),d=buf.getChannelData(0);let b0=0,b1=0,b2=0,b3=0,b4=0,b5=0;for(let i=0;i<d.length;i++){const w=Math.random()*2-1;b0=.99886*b0+w*.0555179;b1=.99332*b1+w*.0750759;b2=.969*b2+w*.153852;b3=.8665*b3+w*.3104856;b4=.55*b4+w*.5329522;b5=-.7616*b5-w*.016898;d[i]=(b0+b1+b2+b3+b4+b5+w*.5362)*0.11;}return buf;}
   const ns=actx.createBufferSource(),nf=actx.createBiquadFilter(),ng=actx.createGain();
-  ns.buffer=mkNoise();ns.loop=true;nf.type='bandpass';nf.frequency.value=1800;nf.Q.value=.4;ng.gain.value=.55;
+  ns.buffer=mkNoise();ns.loop=true;nf.type='bandpass';nf.frequency.value=2200;nf.Q.value=.5;ng.gain.value=.35;
   ns.connect(nf);nf.connect(ng);ng.connect(master);ns.start();bgmNodes.ns=ns;
   const dr=actx.createOscillator(),dg=actx.createGain(),df=actx.createBiquadFilter();
   dr.type='sine';dr.frequency.value=55;df.type='lowpass';df.frequency.value=120;dg.gain.value=.06;
