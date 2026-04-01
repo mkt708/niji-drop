@@ -196,23 +196,22 @@ body{font-family:'Kosugi Maru',sans-serif;background:#0d1b33;
   width:100%;max-width:360px;
 }
 
-/* 💧 発見！ — hero（コンパクト化） */
+/* 💧 発見！ — hero（縦並び・背景なし） */
 #clear-drop-hero{
-  display:flex;flex-direction:row;align-items:center;justify-content:center;gap:12px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;
   animation:drop-hero-in .7s .1s cubic-bezier(.34,1.56,.64,1) both;opacity:0;
-  background:rgba(0,20,60,.58);border-radius:20px;
-  padding:14px 20px;width:100%;
-  border:1px solid rgba(100,180,255,.28);
-  margin:4px 0;
+  background:none;border:none;
+  padding:8px 0 4px;width:100%;
+  margin:0;
 }
 @keyframes drop-hero-in{
   0%  {opacity:0;transform:scale(.2) translateY(30px)}
   60% {opacity:1;transform:scale(1.05) translateY(-3px)}
   100%{opacity:1;transform:scale(1) translateY(0)}}
-#clear-drop-icon{font-size:52px;filter:drop-shadow(0 0 18px rgba(100,200,255,.9));
-  animation:drop-pulse 1.8s ease-in-out infinite;flex-shrink:0}
+#clear-drop-icon{font-size:64px;filter:drop-shadow(0 0 22px rgba(100,200,255,.9));
+  animation:drop-pulse 1.8s ease-in-out infinite;}
 @keyframes drop-pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.1)}}
-#clear-drop-texts{display:flex;flex-direction:column;gap:5px;text-align:center;flex:1}
+#clear-drop-texts{display:flex;flex-direction:column;gap:4px;text-align:center}
 #clear-drop-label{
   font-size:20px;font-weight:700;color:#ffffff;
   text-shadow:0 0 18px rgba(120,200,255,1),0 0 36px rgba(100,180,255,.7);
@@ -229,7 +228,7 @@ body{font-family:'Kosugi Maru',sans-serif;background:#0d1b33;
 /* voices — コンパクト */
 #voices-wrap{display:flex;flex-direction:column;gap:4px;width:100%;max-width:340px}
 .voice-bub{
-  background:rgba(0,15,45,.68);
+  background:rgba(0,15,45,.35);
   border:1px solid rgba(255,255,255,.16);
   border-radius:12px;padding:6px 12px;
   display:flex;align-items:center;gap:8px;
@@ -269,12 +268,12 @@ body{font-family:'Kosugi Maru',sans-serif;background:#0d1b33;
 /* 光の粒が降り注ぐ */
 .end-particle{
   position:absolute;border-radius:50%;pointer-events:none;
-  animation:end-fall var(--ef-d,3s) var(--ef-delay,0s) ease-in infinite;
+  animation:end-fall var(--ef-d,6s) var(--ef-delay,0s) linear infinite;
 }
 @keyframes end-fall{
-  0%  {transform:translateY(-20px) scale(1);opacity:.9}
-  80% {opacity:.7}
-  100%{transform:translateY(110vh) scale(.5);opacity:0}
+  0%  {transform:translateY(-20px) scale(1) rotate(0deg);opacity:.85}
+  50% {opacity:.75;}
+  100%{transform:translateY(110vh) scale(.8) rotate(360deg);opacity:0}
 }
 
 #ending-content{
@@ -701,105 +700,107 @@ function drawEndingBG(now){
   const c=endCtx,W=endCanvas.width,H=endCanvas.height;
   endPhase=now*.0005;
   c.clearRect(0,0,W,H);
-
-  // ── プロローグと同じ背景をそのまま描画 ──
-  // 夜空グラデーション
+  // 空：星空+朝焼け
   const skyG=c.createLinearGradient(0,0,0,H);
-  skyG.addColorStop(0,'rgba(4,8,22,1)');skyG.addColorStop(.28,'rgba(8,18,44,1)');
-  skyG.addColorStop(.62,'rgba(10,24,48,1)');skyG.addColorStop(1,'rgba(8,26,14,1)');
-  c.fillStyle=skyG;c.fillRect(0,0,W,H);
-
-  // 星（六芒星）
-  function endStar6(x,y,r,alpha){
+  skyG.addColorStop(0,'rgba(2,4,18,1)');
+  skyG.addColorStop(.22,'rgba(4,8,32,1)');
+  skyG.addColorStop(.48,'rgba(8,16,52,1)');
+  skyG.addColorStop(.72,'rgba(20,35,70,1)');
+  skyG.addColorStop(.88,'rgba(55,35,18,1)');
+  skyG.addColorStop(1,'rgba(8,20,10,1)');
+  c.fillStyle=skyG;
+  c.fillRect(0,0,W,H);
+  // 朝焼けグロー
+  const dawnG=c.createRadialGradient(W*.5,H*.68,0,W*.5,H*.68,W*.65);
+  dawnG.addColorStop(0,'rgba(255,160,50,.18)');
+  dawnG.addColorStop(.5,'rgba(200,100,30,.06)');
+  dawnG.addColorStop(1,'rgba(0,0,0,0)');
+  c.fillStyle=dawnG;
+  c.fillRect(0,H*.4,W,H*.35);
+  // 星
+  function eStar(x,y,r,a){
     c.save();c.translate(x,y);
-    c.fillStyle=`rgba(255,255,255,${Math.max(0,alpha)})`;
+    c.fillStyle='rgba(255,255,255,'+Math.max(0,a)+')';
     c.beginPath();
     for(let i=0;i<6;i++){
-      const a=(i/6)*Math.PI*2-Math.PI/2,a2=((i+.5)/6)*Math.PI*2-Math.PI/2;
-      i===0?c.moveTo(Math.cos(a)*r,Math.sin(a)*r):c.lineTo(Math.cos(a)*r,Math.sin(a)*r);
+      const ang=(i/6)*Math.PI*2-Math.PI/2,a2=((i+.5)/6)*Math.PI*2-Math.PI/2;
+      i===0?c.moveTo(Math.cos(ang)*r,Math.sin(ang)*r):c.lineTo(Math.cos(ang)*r,Math.sin(ang)*r);
       c.lineTo(Math.cos(a2)*r*.42,Math.sin(a2)*r*.42);
     }
     c.closePath();c.fill();c.restore();
   }
-  [[.06,.04,3.5,.72],[.18,.03,2.5,.55],[.28,.07,4,.76],[.42,.04,3,.6],[.55,.06,3.5,.68],
-   [.68,.03,2.5,.5],[.78,.08,4,.72],[.9,.05,3,.58],[.12,.14,2.5,.48],[.35,.12,3.5,.6],
-   [.58,.15,2.5,.45],[.82,.13,3,.52],[.22,.22,3,.45],[.48,.2,3.5,.55],[.72,.23,2.5,.42],
-   [.05,.26,2.5,.4],[.92,.21,3,.48],[.38,.3,2.5,.38]
-  ].forEach(([rx,ry,r,a])=>endStar6(rx*W,ry*H*.5,r,a+Math.sin(endPhase*.8+rx*10+ry*8)*.15));
-
-  // 雲の層（プロローグと同じ・ゆっくり）
-  function endCloudBlob(x,y,w,h,alpha){
-    const blobs=[[0,.4,1,.5],[.15,0,1.1,.65],[.32,.12,.9,.55],[.5,0,1.15,.6],[.65,.1,.95,.5],[.8,0,1,.55],[1,.4,.85,.45]];
-    blobs.forEach(([bx,by,sw,sh])=>{
-      c.fillStyle=`rgba(42,62,90,${alpha})`;
-      c.beginPath();c.ellipse(x+bx*w,y+by*h,sw*w*.18,sh*h*.6,0,0,Math.PI*2);c.fill();
-    });
-    c.fillStyle=`rgba(65,90,125,${alpha*.4})`;
-    c.beginPath();c.ellipse(x+w*.35,y+h*.1,w*.22,h*.32,0,0,Math.PI*2);c.fill();
-    c.beginPath();c.ellipse(x+w*.62,y+h*.06,w*.18,h*.28,0,0,Math.PI*2);c.fill();
+  var starData=[[.05,.04,4.5,.82],[.14,.02,3.5,.70],[.22,.07,5,.88],[.31,.03,3.5,.72],
+   [.40,.06,4.5,.84],[.50,.02,3,.68],[.60,.05,5,.90],[.70,.03,3.5,.72],
+   [.80,.07,4.5,.82],[.90,.04,3.5,.74],[.97,.08,4,.78],[.08,.14,3,.65],
+   [.26,.13,4,.75],[.44,.17,3.5,.68],[.62,.14,4,.76],[.78,.16,3,.62],
+   [.92,.13,3.5,.70],[.17,.23,3.5,.60],[.38,.21,4,.72],[.58,.24,3,.58],
+   [.76,.22,3.5,.65],[.04,.29,3,.55],[.5,.27,4,.70],[.95,.29,3,.55]];
+  for(var si=0;si<starData.length;si++){
+    var s=starData[si];
+    eStar(s[0]*W,s[1]*H*.68,s[2],s[3]+Math.sin(endPhase*.8+s[0]*12+s[1]*10)*.2);
   }
-  function endCloudLayer(offsetMult,baseY,scaleW,scaleH,alpha,count){
-    for(let ci=0;ci<count;ci++){
-      const frac=((ci/count+endPhase*offsetMult)%1.3)-.15;
-      const cx=frac*W*1.3;
-      const cy=baseY+Math.sin(ci*2.1+endPhase*offsetMult*3)*H*.028;
-      endCloudBlob(cx,cy,scaleW*W*.55,scaleH*H*.12,alpha);
+  for(var i=0;i<65;i++){
+    eStar((i*.137+.02)%1*W,(i*.211+.01)%.65*H,1.2+Math.sin(i*1.7)*.8,.3+Math.sin(i*2.3)*.22+Math.sin(endPhase*.6+i)*.14);
+  }
+  // 天の川
+  var mwG=c.createLinearGradient(W*.08,H*.04,W*.88,H*.46);
+  mwG.addColorStop(0,'rgba(180,200,255,0)');
+  mwG.addColorStop(.5,'rgba(200,215,255,.07)');
+  mwG.addColorStop(1,'rgba(180,200,255,0)');
+  c.fillStyle=mwG;
+  c.beginPath();c.ellipse(W*.48,H*.22,W*.44,H*.08,-.35,0,Math.PI*2);c.fill();
+  // 虹（clip不使用・半円arc）
+  var rcx=W*.5,rcy=H*.78,rb=W*.78;
+  var rainColors=[['rgba(220,36,36,.92)',22],['rgba(238,128,18,.90)',20],['rgba(240,222,18,.94)',18],
+   ['rgba(28,188,62,.90)',18],['rgba(26,128,228,.90)',17],['rgba(86,48,215,.88)',16],['rgba(188,48,215,.86)',15]];
+  for(var ri=0;ri<rainColors.length;ri++){
+    var rc=rainColors[ri],r2=rb-ri*(rc[1]*.9+1);
+    c.save();c.strokeStyle=rc[0];c.lineWidth=rc[1];c.globalAlpha=.92;
+    c.shadowColor=rc[0];c.shadowBlur=14;
+    c.beginPath();c.arc(rcx,rcy,r2,Math.PI,0);c.stroke();
+    c.shadowBlur=0;c.restore();
+  }
+  c.save();c.strokeStyle='rgba(255,255,255,.18)';c.lineWidth=8;
+  c.beginPath();c.arc(rcx,rcy,rb-7*(15*.9+1)+4,Math.PI,0);c.stroke();c.restore();
+  // 背景グラデ
+  var bgL=c.createLinearGradient(0,0,0,H);
+  bgL.addColorStop(0,'rgba(0,0,0,0)');bgL.addColorStop(.55,'rgba(0,0,0,0)');
+  bgL.addColorStop(.70,'rgba(4,18,8,.62)');bgL.addColorStop(.84,'rgba(3,14,5,.86)');
+  bgL.addColorStop(1,'rgba(2,10,4,1)');
+  c.fillStyle=bgL;c.fillRect(0,0,W,H);
+  // 森
+  function eMT(x,y,rx,ry,f,s,lw){
+    c.fillStyle=f;c.beginPath();c.ellipse(x,y,rx,ry,0,0,Math.PI*2);c.fill();
+    c.strokeStyle=s;c.lineWidth=lw;c.beginPath();c.ellipse(x,y,rx,ry,0,0,Math.PI*2);c.stroke();
+    c.lineWidth=lw*.38;c.strokeStyle=s;
+    for(var ti=0;ti<4;ti++){
+      var ta=(ti/4)*Math.PI*2+.3;
+      c.beginPath();
+      c.moveTo(x+Math.cos(ta)*rx*.26,y+Math.sin(ta)*ry*.26);
+      c.quadraticCurveTo(x+Math.cos(ta+.45)*rx*.62,y+Math.sin(ta+.45)*ry*.62,x+Math.cos(ta+.22)*rx*.84,y+Math.sin(ta+.22)*ry*.84);
+      c.stroke();
     }
   }
-  endCloudLayer(.032,H*.08,.48,.62,.18,7);
-  endCloudLayer(.048,H*.15,.62,.76,.28,6);
-  endCloudLayer(.065,H*.24,.78,.88,.40,5);
-  endCloudLayer(.085,H*.34,.95,1.0,.52,4);
-  endCloudLayer(.105,H*.44,1.1,1.1,.62,4);
-
-  // 背景グラデ（木々の隙間を埋める）
-  const bgLayer=c.createLinearGradient(0,0,0,H);
-  bgLayer.addColorStop(0,'rgba(0,0,0,0)');
-  bgLayer.addColorStop(.58,'rgba(0,0,0,0)');
-  bgLayer.addColorStop(.72,'rgba(4,20,8,.6)');
-  bgLayer.addColorStop(.85,'rgba(3,15,5,.85)');
-  bgLayer.addColorStop(1,'rgba(2,10,4,1)');
-  c.fillStyle=bgLayer;c.fillRect(0,0,W,H);
-
-  // 森（3層・プロローグと同じ密集スタイル）
-  function endMTree(x,y,rx,ry,fill,stroke,lw){
-    c.fillStyle=fill;c.beginPath();c.ellipse(x,y,rx,ry,0,0,Math.PI*2);c.fill();
-    c.strokeStyle=stroke;c.lineWidth=lw||2.2;
-    c.beginPath();c.ellipse(x,y,rx,ry,0,0,Math.PI*2);c.stroke();
-    c.lineWidth=(lw||2.2)*.38;c.strokeStyle=stroke;
-    for(let i=0;i<4;i++){const a=(i/4)*Math.PI*2+.3;c.beginPath();c.moveTo(x+Math.cos(a)*rx*.26,y+Math.sin(a)*ry*.26);c.quadraticCurveTo(x+Math.cos(a+.45)*rx*.62,y+Math.sin(a+.45)*ry*.62,x+Math.cos(a+.22)*rx*.84,y+Math.sin(a+.22)*ry*.84);c.stroke();}
+  for(var i=0;i<22;i++){
+    eMT(i/21*W,(.80+Math.sin(i*2.3)*.02)*H,11+Math.sin(i*1.7)*4,9+Math.sin(i*2.1)*3,'rgba(7,28,10,1)','rgba(2,8,3,1)',1.5);
   }
-  // 最遠景
-  for(let i=0;i<22;i++){
-    const rx=i/21,ry=H*.8+Math.sin(i*2.3)*.02;
-    const rw=11+Math.sin(i*1.7)*4,rh=9+Math.sin(i*2.1)*3;
-    endMTree(rx*W,ry*H,rw,rh,'rgba(7,28,10,1)','rgba(2,8,3,1)',1.5);
+  for(var i=0;i<18;i++){
+    eMT(i/17*W,(.845+Math.sin(i*1.9)*.018)*H,18+Math.sin(i*2.3)*6,15+Math.sin(i*1.8)*5,'rgba(10,42,16,1)','rgba(3,12,4,1)',2);
   }
-  // 中景
-  for(let i=0;i<18;i++){
-    const rx=i/17,ry=H*.845+Math.sin(i*1.9)*.018;
-    const rw=18+Math.sin(i*2.3)*6,rh=15+Math.sin(i*1.8)*5;
-    endMTree(rx*W,ry*H,rw,rh,'rgba(10,42,16,1)','rgba(3,12,4,1)',2);
+  for(var i=0;i<14;i++){
+    eMT(i/13*W,(.89+Math.sin(i*2.1)*.015)*H,26+Math.sin(i*1.5)*8,22+Math.sin(i*2.4)*7,'rgba(14,55,20,1)','rgba(3,14,5,1)',2.5);
   }
-  // 手前
-  for(let i=0;i<14;i++){
-    const rx=i/13,ry=H*.89+Math.sin(i*2.1)*.015;
-    const rw=26+Math.sin(i*1.5)*8,rh=22+Math.sin(i*2.4)*7;
-    endMTree(rx*W,ry*H,rw,rh,'rgba(14,55,20,1)','rgba(3,14,5,1)',2.5);
-  }
-
   // 地面
-  c.fillStyle='rgba(5,20,7,1)';c.fillRect(0,H*.93,W,H*.07);
-  c.strokeStyle='rgba(2,8,3,1)';c.lineWidth=2;
-  c.beginPath();for(let x=0;x<=W;x+=5){const y=H*.93+Math.sin(x*.02+endPhase*.1)*3;x===0?c.moveTo(x,y):c.lineTo(x,y);}c.stroke();
-
-  // 雨粒
-  for(let i=0;i<20;i++){
-    const rx=((i/20+endPhase*.15+i*.08)%1)*W;
-    const ry=((i*.137+endPhase*.4)%1)*H;
-    c.strokeStyle=`rgba(160,200,240,${.08+Math.sin(endPhase*2+i)*.04})`;c.lineWidth=1;
-    c.beginPath();c.moveTo(rx,ry);c.lineTo(rx+2,ry+14);c.stroke();
+  c.fillStyle='rgba(5,20,7,1)';
+  c.fillRect(0,H*.93,W,H*.07);
+  c.strokeStyle='rgba(2,8,3,1)';
+  c.lineWidth=2;
+  c.beginPath();
+  for(var gx=0;gx<=W;gx+=5){
+    var gy=H*.93+Math.sin(gx*.022+endPhase*.1)*3;
+    gx===0?c.moveTo(gx,gy):c.lineTo(gx,gy);
   }
+  c.stroke();
 }
 function startEndCanvas(){
   initEndCanvas();
@@ -1896,7 +1897,7 @@ function tap(lane){
   const le=document.getElementById('lane'+lane);
   le.classList.add('active');setTimeout(()=>le.classList.remove('active'),140);
   const now=performance.now();let closest=null,minDist=Infinity;
-  for(const n of notes){if(n.lane!==lane||n.hit)continue;const elapsed=now-n.startTime,hitTime=n.fallDur*(HIT_Y+22)/(GAME_H+60),diff=elapsed-hitTime;if(Math.abs(diff)<Math.abs(minDist)){minDist=diff;closest=n;}}
+  for(const n of notes){if(n.lane!==lane||n.hit)continue;const elapsed=now-n.startTime,hitTime=n.fallDur*(HIT_Y+50)/(GAME_H+100),diff=elapsed-hitTime;if(Math.abs(diff)<Math.abs(minDist)){minDist=diff;closest=n;}}
   let bucket,feedType,pts=0;
   if(closest&&Math.abs(minDist)<GOOD_W*1.9){
     closest.hit=true;closest.el.style.opacity='0';closest.el.style.transition='opacity .12s';
@@ -1940,7 +1941,8 @@ function triggerEnding(){
       const p=document.createElement('div');p.className='end-particle';
       const sz=3+Math.random()*7;
       const col=colors[Math.floor(Math.random()*colors.length)];
-      p.style.cssText=`width:${sz}px;height:${sz}px;background:${col};left:${Math.random()*100}%;top:-10px;--ef-d:${2+Math.random()*3}s;--ef-delay:${Math.random()*2}s;opacity:.8`;
+      const isRect=Math.random()>.4;const ratio=.4+Math.random()*.8;
+p.style.cssText=`width:${sz}px;height:${sz*ratio}px;background:${col};left:${Math.random()*100}%;top:-10px;border-radius:${isRect?'2px':'50%'};--ef-d:${5+Math.random()*5}s;--ef-delay:${Math.random()*3}s;opacity:.85`;
       overlay.appendChild(p);
     },i*200);
   }
