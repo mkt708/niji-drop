@@ -66,7 +66,7 @@ body{font-family:'Kosugi Maru',sans-serif;background:#0d1b33;
   100%{transform:scale(.9) translateY(-18px);opacity:0}}
 
 /* GAME AREA */
-#game-area{position:relative;width:calc(100% - 32px);height:365px;
+#game-area{position:relative;width:calc(100% - 32px);height:min(420px,52vw*1.85);
   overflow:hidden;border-radius:20px;
   border:1px solid rgba(255,255,255,.08);background:rgba(0,0,0,.2)}
 #bg-canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:1}
@@ -139,7 +139,7 @@ body{font-family:'Kosugi Maru',sans-serif;background:#0d1b33;
 .puddle-bounce{animation:puddle-b .4s ease-out}
 
 #hint{margin-top:5px;font-size:11px;color:rgba(180,200,255,.35);letter-spacing:.04em}
-@keyframes note-fall{from{top:-50px}to{top:410px}}
+@keyframes note-fall{from{top:-50px}to{top:470px}}
 
 /* ── OVERLAYS ── */
 .overlay{position:fixed;inset:0;z-index:150;background:rgba(5,12,30,.9);
@@ -201,8 +201,9 @@ body{font-family:'Kosugi Maru',sans-serif;background:#0d1b33;
   display:flex;flex-direction:row;align-items:center;justify-content:center;gap:12px;
   animation:drop-hero-in .7s .1s cubic-bezier(.34,1.56,.64,1) both;opacity:0;
   background:rgba(0,20,60,.58);border-radius:20px;
-  padding:14px 24px;width:100%;
+  padding:14px 20px;width:100%;
   border:1px solid rgba(100,180,255,.28);
+  margin:4px 0;
 }
 @keyframes drop-hero-in{
   0%  {opacity:0;transform:scale(.2) translateY(30px)}
@@ -211,14 +212,15 @@ body{font-family:'Kosugi Maru',sans-serif;background:#0d1b33;
 #clear-drop-icon{font-size:52px;filter:drop-shadow(0 0 18px rgba(100,200,255,.9));
   animation:drop-pulse 1.8s ease-in-out infinite;flex-shrink:0}
 @keyframes drop-pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.1)}}
-#clear-drop-texts{display:flex;flex-direction:column;gap:3px;text-align:left}
+#clear-drop-texts{display:flex;flex-direction:column;gap:5px;text-align:center;flex:1}
 #clear-drop-label{
   font-size:20px;font-weight:700;color:#ffffff;
   text-shadow:0 0 18px rgba(120,200,255,1),0 0 36px rgba(100,180,255,.7);
   letter-spacing:.03em;
   animation:drop-hero-in .7s .25s cubic-bezier(.34,1.56,.64,1) both;opacity:0}
 #clear-drop-sub{
-  font-size:12px;color:rgba(160,210,255,.85);
+  font-size:13px;color:rgba(160,210,255,.9);font-weight:700;
+  text-align:center;letter-spacing:.06em;
   animation:ov-txt .5s .7s ease both;opacity:0}
 
 /* story — 非表示 */
@@ -278,14 +280,14 @@ body{font-family:'Kosugi Maru',sans-serif;background:#0d1b33;
 #ending-content{
   position:relative;z-index:5;
   display:flex;flex-direction:column;align-items:center;
-  gap:9px;padding:20px 16px 24px;width:100%;max-width:380px;
+  gap:8px;padding:16px 16px 20px;width:100%;max-width:380px;
   text-align:center;
 }
 #ending-nijiko{
-  font-size:72px;
+  font-size:68px;
   animation:ending-appear .8s .2s cubic-bezier(.34,1.56,.64,1) both;
   opacity:0;
-  filter:drop-shadow(0 0 20px rgba(80,200,80,.5));
+  filter:drop-shadow(0 0 18px rgba(0,0,0,.8)) drop-shadow(0 2px 8px rgba(0,0,0,.9));
 }
 @keyframes ending-appear{
   0%  {opacity:0;transform:scale(.2) translateY(40px)}
@@ -293,35 +295,40 @@ body{font-family:'Kosugi Maru',sans-serif;background:#0d1b33;
   100%{opacity:1;transform:scale(1) translateY(0)}
 }
 #ending-title{
-  font-size:21px;color:rgba(14,80,10,1);
-  text-shadow:0 1px 4px rgba(255,255,255,.85),0 0 14px rgba(80,200,40,.4);
+  font-size:22px;color:rgba(255,238,140,1);
+  text-shadow:0 0 18px rgba(255,180,40,.9),0 2px 6px rgba(0,0,0,1),0 0 40px rgba(0,0,0,.8);
   animation:ending-appear .7s .6s ease both;opacity:0;
   line-height:1.4;font-weight:700;
 }
 #ending-message{
-  font-size:13px;color:rgba(14,72,10,.9);
-  line-height:1.9;max-width:280px;
+  font-size:13px;color:rgba(235,248,255,1);
+  line-height:2;max-width:280px;
   animation:ending-appear .7s 1s ease both;opacity:0;
   white-space:pre-line;
-  text-shadow:0 1px 3px rgba(255,255,255,.75);
-  background:rgba(255,255,255,.45);border-radius:14px;padding:10px 16px;
+  /* 背景なし・影だけで読みやすく */
+  background:none;border:none;padding:4px 8px;
+  text-shadow:0 1px 0 rgba(0,0,0,1),0 0 8px rgba(0,0,0,1),0 0 20px rgba(0,0,0,.9),
+              1px 1px 4px rgba(0,0,0,1),-1px -1px 4px rgba(0,0,0,.8);
 }
 #ending-voices{
-  display:flex;flex-direction:column;gap:5px;
+  display:flex;flex-direction:column;gap:4px;
   width:100%;max-width:320px;
 }
 .end-voice{
-  background:rgba(255,255,255,.75);border:1px solid rgba(60,140,40,.25);
-  border-radius:12px;padding:7px 13px;
+  /* 極薄・背景が透けて見える */
+  background:rgba(0,8,25,.32);
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:12px;padding:6px 12px;
   display:flex;align-items:center;gap:8px;
   opacity:0;animation:vbub .45s ease forwards;
+  backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px);
 }
 #ending-replay{
-  background:linear-gradient(135deg,#2a9e2a,#5ed45e);
+  background:linear-gradient(135deg,#1a8fff,#7ee8ff);
   border:none;border-radius:999px;padding:12px 38px;
   font-family:'Kosugi Maru',sans-serif;font-size:15px;
-  color:#0a2a0a;cursor:pointer;margin-top:4px;
-  box-shadow:0 0 24px rgba(80,200,60,.5);
+  color:#003a6b;cursor:pointer;margin-top:6px;
+  box-shadow:0 0 24px rgba(26,143,255,.5),0 4px 16px rgba(0,0,0,.5);
   transition:transform .12s;
   animation:ending-appear .7s 3.4s ease both;opacity:0;
   font-weight:700;touch-action:manipulation;
@@ -695,122 +702,105 @@ function drawEndingBG(now){
   endPhase=now*.0005;
   c.clearRect(0,0,W,H);
 
-  // ── 空（ムーミン風・明るい水色） ──
-  const skyG=c.createLinearGradient(0,0,0,H*.55);
-  skyG.addColorStop(0,'rgba(85,168,220,1)');
-  skyG.addColorStop(.45,'rgba(120,198,240,1)');
-  skyG.addColorStop(1,'rgba(165,220,248,1)');
-  c.fillStyle=skyG;c.fillRect(0,0,W,H*.55);
+  // ── プロローグと同じ背景をそのまま描画 ──
+  // 夜空グラデーション
+  const skyG=c.createLinearGradient(0,0,0,H);
+  skyG.addColorStop(0,'rgba(4,8,22,1)');skyG.addColorStop(.28,'rgba(8,18,44,1)');
+  skyG.addColorStop(.62,'rgba(10,24,48,1)');skyG.addColorStop(1,'rgba(8,26,14,1)');
+  c.fillStyle=skyG;c.fillRect(0,0,W,H);
 
-  // ── 太陽（左上） ──
-  const sunG=c.createRadialGradient(W*.1,H*.07,0,W*.1,H*.07,W*.3);
-  sunG.addColorStop(0,`rgba(255,250,200,${.65+Math.sin(endPhase*.3)*.07})`);
-  sunG.addColorStop(.35,'rgba(255,235,130,.2)');
-  sunG.addColorStop(1,'rgba(255,230,100,0)');
-  c.fillStyle=sunG;c.fillRect(0,0,W*.45,H*.35);
-  c.fillStyle='rgba(255,252,210,.92)';
-  c.beginPath();c.arc(W*.1,H*.07,22+Math.sin(endPhase*.5),0,Math.PI*2);c.fill();
-  c.fillStyle='rgba(255,255,240,.55)';
-  c.beginPath();c.arc(W*.1,H*.07,12,0,Math.PI*2);c.fill();
-
-  // ── 白い雲（ムーミン風・丸くふわっと） ──
-  function mCloud(x,y,w,h,a){
-    const blobs=[[0,.42,1,.52],[.13,.0,1.12,.68],[.3,.1,.92,.56],[.48,.0,1.18,.64],[.64,.08,.96,.54],[.8,.0,1.06,.6],[1,.4,.88,.48]];
-    blobs.forEach(([bx,by,sw,sh])=>{
-      c.fillStyle=`rgba(255,255,255,${a})`;
-      c.beginPath();c.ellipse(x+bx*w,y+by*h,sw*w*.17,sh*h*.62,0,0,Math.PI*2);c.fill();
-    });
-    // 下面のやわらかい影
-    c.fillStyle=`rgba(195,225,242,${a*.38})`;
-    c.beginPath();c.ellipse(x+w*.5,y+h*.68,w*.38,h*.22,0,0,Math.PI*2);c.fill();
+  // 星（六芒星）
+  function endStar6(x,y,r,alpha){
+    c.save();c.translate(x,y);
+    c.fillStyle=`rgba(255,255,255,${Math.max(0,alpha)})`;
+    c.beginPath();
+    for(let i=0;i<6;i++){
+      const a=(i/6)*Math.PI*2-Math.PI/2,a2=((i+.5)/6)*Math.PI*2-Math.PI/2;
+      i===0?c.moveTo(Math.cos(a)*r,Math.sin(a)*r):c.lineTo(Math.cos(a)*r,Math.sin(a)*r);
+      c.lineTo(Math.cos(a2)*r*.42,Math.sin(a2)*r*.42);
+    }
+    c.closePath();c.fill();c.restore();
   }
-  // 雲（ゆっくり流れる）
-  const cs=endPhase*.04;
-  mCloud(((W*.08+cs*W*.8)%(W*1.3))-W*.15, H*.06, W*.32,H*.11,.94);
-  mCloud(((W*.42+cs*W*.6)%(W*1.3))-W*.15, H*.03, W*.28,H*.1,.88);
-  mCloud(((W*.72+cs*W*.5)%(W*1.3))-W*.15, H*.08, W*.24,H*.09,.85);
-  mCloud(((W*.2 +cs*W*.7)%(W*1.3))-W*.15, H*.16, W*.2, H*.08,.72);
-  mCloud(((W*.58+cs*W*.55)%(W*1.3))-W*.15,H*.14, W*.22,H*.08,.76);
+  [[.06,.04,3.5,.72],[.18,.03,2.5,.55],[.28,.07,4,.76],[.42,.04,3,.6],[.55,.06,3.5,.68],
+   [.68,.03,2.5,.5],[.78,.08,4,.72],[.9,.05,3,.58],[.12,.14,2.5,.48],[.35,.12,3.5,.6],
+   [.58,.15,2.5,.45],[.82,.13,3,.52],[.22,.22,3,.45],[.48,.2,3.5,.55],[.72,.23,2.5,.42],
+   [.05,.26,2.5,.4],[.92,.21,3,.48],[.38,.3,2.5,.38]
+  ].forEach(([rx,ry,r,a])=>endStar6(rx*W,ry*H*.5,r,a+Math.sin(endPhase*.8+rx*10+ry*8)*.15));
 
-  // ── 虹アーチ（ムーミン風・はっきりした色） ──
-  const rcx=W*.5,rcy=H*.55,rb=W*.68;
-  [['#FF1A1A',20],['#FF7B00',18],['#FFE800',16],['#18CC44',16],['#1A88FF',15],['#5522EE',14],['#CC33FF',13]
-  ].forEach(([col,lw],i)=>{
-    const r=rb-i*lw*.9;
-    c.strokeStyle=col;c.lineWidth=lw;c.globalAlpha=.92;
-    c.shadowColor=col;c.shadowBlur=8;
-    c.beginPath();c.arc(rcx,rcy,r,Math.PI,0);c.stroke();
-    c.shadowBlur=0;c.globalAlpha=1;
-  });
-  // 内側の白いグロー
-  c.strokeStyle='rgba(255,255,255,.25)';c.lineWidth=6;
-  c.beginPath();c.arc(rcx,rcy,rb-7*13*.9+3,Math.PI,0);c.stroke();
+  // 雲の層（プロローグと同じ・ゆっくり）
+  function endCloudBlob(x,y,w,h,alpha){
+    const blobs=[[0,.4,1,.5],[.15,0,1.1,.65],[.32,.12,.9,.55],[.5,0,1.15,.6],[.65,.1,.95,.5],[.8,0,1,.55],[1,.4,.85,.45]];
+    blobs.forEach(([bx,by,sw,sh])=>{
+      c.fillStyle=`rgba(42,62,90,${alpha})`;
+      c.beginPath();c.ellipse(x+bx*w,y+by*h,sw*w*.18,sh*h*.6,0,0,Math.PI*2);c.fill();
+    });
+    c.fillStyle=`rgba(65,90,125,${alpha*.4})`;
+    c.beginPath();c.ellipse(x+w*.35,y+h*.1,w*.22,h*.32,0,0,Math.PI*2);c.fill();
+    c.beginPath();c.ellipse(x+w*.62,y+h*.06,w*.18,h*.28,0,0,Math.PI*2);c.fill();
+  }
+  function endCloudLayer(offsetMult,baseY,scaleW,scaleH,alpha,count){
+    for(let ci=0;ci<count;ci++){
+      const frac=((ci/count+endPhase*offsetMult)%1.3)-.15;
+      const cx=frac*W*1.3;
+      const cy=baseY+Math.sin(ci*2.1+endPhase*offsetMult*3)*H*.028;
+      endCloudBlob(cx,cy,scaleW*W*.55,scaleH*H*.12,alpha);
+    }
+  }
+  endCloudLayer(.032,H*.08,.48,.62,.18,7);
+  endCloudLayer(.048,H*.15,.62,.76,.28,6);
+  endCloudLayer(.065,H*.24,.78,.88,.40,5);
+  endCloudLayer(.085,H*.34,.95,1.0,.52,4);
+  endCloudLayer(.105,H*.44,1.1,1.1,.62,4);
 
-  // ── 遠景の丘（明るいグリーン） ──
-  c.fillStyle='rgba(80,168,55,1)';
-  c.beginPath();c.moveTo(0,H*.52);
-  for(let x=0;x<=W;x+=5) c.lineTo(x,H*.52+Math.sin(x*.013)*20+Math.cos(x*.008)*12);
-  c.lineTo(W,H*.62);c.lineTo(0,H*.62);c.closePath();c.fill();
-  c.strokeStyle='rgba(42,105,28,1)';c.lineWidth=2;
-  c.beginPath();for(let x=0;x<=W;x+=4) c.lineTo(x,H*.52+Math.sin(x*.013)*20+Math.cos(x*.008)*12);c.stroke();
+  // 背景グラデ（木々の隙間を埋める）
+  const bgLayer=c.createLinearGradient(0,0,0,H);
+  bgLayer.addColorStop(0,'rgba(0,0,0,0)');
+  bgLayer.addColorStop(.58,'rgba(0,0,0,0)');
+  bgLayer.addColorStop(.72,'rgba(4,20,8,.6)');
+  bgLayer.addColorStop(.85,'rgba(3,15,5,.85)');
+  bgLayer.addColorStop(1,'rgba(2,10,4,1)');
+  c.fillStyle=bgLayer;c.fillRect(0,0,W,H);
 
-  // ── 木々（ムーミン風丸い樹冠・明るい緑・3層） ──
-  function endTree(x,y,rx,ry,fill,stroke,hi){
+  // 森（3層・プロローグと同じ密集スタイル）
+  function endMTree(x,y,rx,ry,fill,stroke,lw){
     c.fillStyle=fill;c.beginPath();c.ellipse(x,y,rx,ry,0,0,Math.PI*2);c.fill();
-    c.strokeStyle=stroke;c.lineWidth=2.5;c.beginPath();c.ellipse(x,y,rx,ry,0,0,Math.PI*2);c.stroke();
-    if(hi){c.fillStyle=hi;c.beginPath();c.ellipse(x-rx*.22,y-ry*.24,rx*.46,ry*.4,-.28,0,Math.PI*2);c.fill();}
-    c.lineWidth=.85;c.strokeStyle=stroke;
+    c.strokeStyle=stroke;c.lineWidth=lw||2.2;
+    c.beginPath();c.ellipse(x,y,rx,ry,0,0,Math.PI*2);c.stroke();
+    c.lineWidth=(lw||2.2)*.38;c.strokeStyle=stroke;
     for(let i=0;i<4;i++){const a=(i/4)*Math.PI*2+.3;c.beginPath();c.moveTo(x+Math.cos(a)*rx*.26,y+Math.sin(a)*ry*.26);c.quadraticCurveTo(x+Math.cos(a+.45)*rx*.62,y+Math.sin(a+.45)*ry*.62,x+Math.cos(a+.22)*rx*.84,y+Math.sin(a+.22)*ry*.84);c.stroke();}
   }
-  function endTrunk(x,top,h,w){
-    c.fillStyle='rgba(88,52,18,1)';c.fillRect(x-w/2,top,w,h);
-    c.strokeStyle='rgba(48,28,6,1)';c.lineWidth=1.5;c.strokeRect(x-w/2,top,w,h);
-  }
-
-  // 遠景（20本・等間隔）
-  for(let i=0;i<20;i++){
-    const rx=i/19,ry=H*.52+Math.sin(i*2.1)*.018*H;
-    const rw=14+Math.sin(i*1.7)*4,rh=12+Math.sin(i*2.3)*3;
-    endTree(rx*W,ry,rw,rh,'rgba(58,148,42,1)','rgba(24,78,14,1)','rgba(95,195,65,.32)');
-    endTrunk(rx*W,ry+rh-3,H*.07,5);
-  }
-  // 中景（15本）
-  for(let i=0;i<15;i++){
-    const rx=i/14,ry=H*.68+Math.sin(i*1.9)*.016*H;
-    const rw=24+Math.sin(i*2.2)*7,rh=20+Math.sin(i*1.8)*6;
-    endTree(rx*W,ry,rw,rh,'rgba(48,135,36,1)','rgba(20,70,12,1)','rgba(85,185,58,.35)');
-    endTrunk(rx*W,ry+rh-5,H*.1,8);
-  }
-  // 手前（11本）
-  for(let i=0;i<11;i++){
-    const rx=i/10,ry=H*.83+Math.sin(i*2.4)*.012*H;
-    const rw=36+Math.sin(i*1.6)*10,rh=32+Math.sin(i*2.1)*9;
-    endTree(rx*W,ry,rw,rh,'rgba(38,118,30,1)','rgba(16,62,10,1)','rgba(72,168,50,.32)');
-    endTrunk(rx*W,ry+rh-7,H*.14,12);
-  }
-
-  // ── 地面（明るい緑） ──
-  c.fillStyle='rgba(50,132,38,1)';c.fillRect(0,H*.9,W,H*.1);
-  c.strokeStyle='rgba(24,80,16,1)';c.lineWidth=2.5;
-  c.beginPath();for(let x=0;x<=W;x+=5){const y=H*.9+Math.sin(x*.025+endPhase*.1)*3;x===0?c.moveTo(x,y):c.lineTo(x,y);}c.stroke();
-  // 草
+  // 最遠景
   for(let i=0;i<22;i++){
-    const gx=i*W/21,gy=H*.9+Math.sin(i*2.1)*3;
-    const sw=Math.sin(endPhase*.4+i*.7)*2.5;
-    c.strokeStyle='rgba(28,95,22,1)';c.lineWidth=2;
-    c.beginPath();c.moveTo(gx,gy);c.quadraticCurveTo(gx+sw,gy-14,gx+sw*1.5,gy-22);c.stroke();
+    const rx=i/21,ry=H*.8+Math.sin(i*2.3)*.02;
+    const rw=11+Math.sin(i*1.7)*4,rh=9+Math.sin(i*2.1)*3;
+    endMTree(rx*W,ry*H,rw,rh,'rgba(7,28,10,1)','rgba(2,8,3,1)',1.5);
+  }
+  // 中景
+  for(let i=0;i<18;i++){
+    const rx=i/17,ry=H*.845+Math.sin(i*1.9)*.018;
+    const rw=18+Math.sin(i*2.3)*6,rh=15+Math.sin(i*1.8)*5;
+    endMTree(rx*W,ry*H,rw,rh,'rgba(10,42,16,1)','rgba(3,12,4,1)',2);
+  }
+  // 手前
+  for(let i=0;i<14;i++){
+    const rx=i/13,ry=H*.89+Math.sin(i*2.1)*.015;
+    const rw=26+Math.sin(i*1.5)*8,rh=22+Math.sin(i*2.4)*7;
+    endMTree(rx*W,ry*H,rw,rh,'rgba(14,55,20,1)','rgba(3,14,5,1)',2.5);
   }
 
-  // ── 光の粒（きらめき） ──
-  for(let i=0;i<12;i++){
-    const lx=W*.08+Math.sin(i*2.3+endPhase*.5)*W*.4+i*W*.07;
-    const ly=H*.5+Math.sin(i*1.7+endPhase*.35)*H*.05;
-    const la=.28+Math.sin(endPhase*.7+i)*.18;
-    c.fillStyle=`rgba(255,245,180,${la})`;
-    c.beginPath();c.arc(lx,ly,2+Math.sin(i*1.3+endPhase)*.8,0,Math.PI*2);c.fill();
+  // 地面
+  c.fillStyle='rgba(5,20,7,1)';c.fillRect(0,H*.93,W,H*.07);
+  c.strokeStyle='rgba(2,8,3,1)';c.lineWidth=2;
+  c.beginPath();for(let x=0;x<=W;x+=5){const y=H*.93+Math.sin(x*.02+endPhase*.1)*3;x===0?c.moveTo(x,y):c.lineTo(x,y);}c.stroke();
+
+  // 雨粒
+  for(let i=0;i<20;i++){
+    const rx=((i/20+endPhase*.15+i*.08)%1)*W;
+    const ry=((i*.137+endPhase*.4)%1)*H;
+    c.strokeStyle=`rgba(160,200,240,${.08+Math.sin(endPhase*2+i)*.04})`;c.lineWidth=1;
+    c.beginPath();c.moveTo(rx,ry);c.lineTo(rx+2,ry+14);c.stroke();
   }
 }
-
 function startEndCanvas(){
   initEndCanvas();
   function loop(now){drawEndingBG(now);endAnim=requestAnimationFrame(loop);}
@@ -846,8 +836,8 @@ const STAGES=[
   {
     name:'🌊 ステージ 2 — 川のほとり',
     bgType:'river',
-    skyDark:['10,21,40','22,40,72','30,58,96'],
-    skyLight:['20,40,75','44,80,128','60,100,150'],
+    skyDark:['8,18,48','18,40,85','28,60,108'],
+    skyLight:['18,42,85','42,88,148','62,108,165'],
     rainOpacity:.4,rainCount:28,fallDur:1950,spawnMin:650,spawnMax:1100,
     dialogue:[
       {char:'🦆',text:'川まで来たよ！\n水の流れに気をつけて！'},
@@ -867,8 +857,8 @@ const STAGES=[
   {
     name:'🌅 ステージ 3 — 海の近く',
     bgType:'sea',
-    skyDark:['6,15,30','13,30,54','18,42,80'],
-    skyLight:['14,28,60','24,55,100','40,80,125'],
+    skyDark:['5,12,32','10,25,58','15,38,80'],
+    skyLight:['12,26,60','20,50,100','35,72,118'],
     rainOpacity:.55,rainCount:36,fallDur:1700,spawnMin:520,spawnMax:900,
     dialogue:[
       {char:'👧',text:'海まで来てくれたんだね。\nみんな本当にありがとう！'},
@@ -888,8 +878,8 @@ const STAGES=[
   {
     name:'⛰️ ステージ 4 — 山の頂上',
     bgType:'mountain',
-    skyDark:['4,10,20','8,21,42','13,30,58'],
-    skyLight:['12,24,52','20,44,85','32,65,110'],
+    skyDark:['3,8,22','6,16,40','10,25,52'],
+    skyLight:['8,20,48','16,38,78','26,58,100'],
     rainOpacity:.7,rainCount:44,fallDur:1480,spawnMin:400,spawnMax:720,
     dialogue:[
       {char:'🐸',text:'山の頂上まで来たよ！\nここに最後のしずくがある！'},
@@ -1135,68 +1125,94 @@ function coniferTree(c,x,y,h,col,strokeCol){
 function drawRiver(W,H){
 
   const c=bgCtx;const p=bgPhase;
-  // どんより空
+  // ── 空（深い夜空・青みを強く） ──
   const sky=c.createLinearGradient(0,0,0,H*.5);
-  sky.addColorStop(0,'#2a3a3a');sky.addColorStop(.5,'#3a4e4a');sky.addColorStop(1,'#425848');
+  sky.addColorStop(0,'rgba(4,10,30,1)');sky.addColorStop(.4,'rgba(8,20,52,1)');sky.addColorStop(1,'rgba(12,32,58,1)');
   c.fillStyle=sky;c.fillRect(0,0,W,H*.5);
 
-  // 重たい雲
-  drawCloud(c,W*.0, H*.02,W*.35,H*.18,.62);
-  drawCloud(c,W*.28,H*.0, W*.4, H*.2, .58);
-  drawCloud(c,W*.62,H*.04,W*.38,H*.16,.6);
-  // 暗い雲（手前）
-  drawCloud(c,W*.1, H*.08,W*.28,H*.12,.45);
-  drawCloud(c,W*.55,H*.1, W*.3, H*.13,.48);
+  // 雲（青みがかった暗い雲）
+  drawCloud(c,W*.0, H*.02,W*.35,H*.18,.58);
+  drawCloud(c,W*.28,H*.0, W*.4, H*.2, .52);
+  drawCloud(c,W*.62,H*.04,W*.38,H*.16,.55);
+  drawCloud(c,W*.1, H*.08,W*.28,H*.12,.40);
+  drawCloud(c,W*.55,H*.1, W*.3, H*.13,.42);
 
-  // 遠景の丘（なだらか・青みがかった緑）
-  c.fillStyle='#2e4a38';
+  // ── 遠景の山（奥の連なり・夜の濃淡） ──
+  c.fillStyle='rgba(8,18,42,1)';
+  c.beginPath();c.moveTo(0,H*.42);
+  const mxArr=[0,.08,.16,.26,.36,.46,.56,.66,.76,.86,.94,1];
+  const myArr=[.42,.28,.36,.22,.32,.25,.35,.20,.30,.24,.34,.42];
+  mxArr.forEach((x,i)=>i===0?c.moveTo(x*W,myArr[i]*H):c.lineTo(x*W,myArr[i]*H));
+  c.lineTo(W,0);c.lineTo(0,0);c.closePath();c.fill();
+  // 山の稜線ハイライト
+  c.strokeStyle='rgba(16,32,72,.5)';c.lineWidth=1.5;
+  c.beginPath();mxArr.forEach((x,i)=>i===0?c.moveTo(x*W,myArr[i]*H):c.lineTo(x*W,myArr[i]*H));c.stroke();
+
+  // ── 遠景の丘A（第2層） ──
+  c.fillStyle='rgba(10,28,14,1)';
   c.beginPath();c.moveTo(0,H*.46);
   for(let x=0;x<=W;x+=6) c.lineTo(x,H*.46-Math.sin(x*.014)*22-Math.cos(x*.009)*14);
   c.lineTo(W,0);c.lineTo(0,0);c.closePath();c.fill();
-  // 丘の輪郭線
-  c.strokeStyle='rgba(20,36,26,.5)';c.lineWidth=1.5;
+  c.strokeStyle='rgba(4,14,6,1)';c.lineWidth=2;
   c.beginPath();for(let x=0;x<=W;x+=4) c.lineTo(x,H*.46-Math.sin(x*.014)*22-Math.cos(x*.009)*14);c.stroke();
 
-  // 遠景の針葉樹（小さく）
-  const farConifers=[[W*.06,H*.4,22],[W*.14,H*.38,26],[W*.24,H*.42,20],[W*.62,H*.4,22],[W*.72,H*.38,26],[W*.82,H*.42,20],[W*.9,H*.39,24]];
-  farConifers.forEach(([x,y,h])=>coniferTree(c,x,y,h,'rgba(28,48,32,.8)','rgba(14,28,18,.5)'));
+  // ── 遠景の丘B（第1層・手前の丘） ──
+  c.fillStyle='rgba(12,38,18,1)';
+  c.beginPath();c.moveTo(0,H*.49);
+  for(let x=0;x<=W;x+=5) c.lineTo(x,H*.49-Math.sin(x*.022+1)*14-Math.cos(x*.013)*8);
+  c.lineTo(W,H*.42);c.lineTo(0,H*.42);c.closePath();c.fill();
+  c.strokeStyle='rgba(4,16,6,1)';c.lineWidth=2;
+  c.beginPath();for(let x=0;x<=W;x+=4) c.lineTo(x,H*.49-Math.sin(x*.022+1)*14-Math.cos(x*.013)*8);c.stroke();
 
-  // 地面（両岸・緑）
-  c.fillStyle='#2e4a30';c.fillRect(0,H*.48,W,H*.52);
-  c.strokeStyle='rgba(18,32,20,.6)';c.lineWidth=2;
+  // ── 遠景の針葉樹（2列・増量） ──
+  // 奥列（小さく・山の前）
+  [[W*.04,H*.38,16],[W*.1,H*.36,20],[W*.18,H*.4,15],[W*.28,H*.35,22],[W*.38,H*.39,17],
+   [W*.48,H*.36,21],[W*.58,H*.4,16],[W*.68,H*.36,20],[W*.78,H*.39,17],[W*.88,H*.37,19],[W*.95,H*.4,15]
+  ].forEach(([x,y,h])=>coniferTree(c,x,y,h,'rgba(8,26,12,1)','rgba(2,10,4,1)'));
+  // 手前列（少し大きく・丘の上）
+  [[W*.06,H*.44,22],[W*.14,H*.42,26],[W*.22,H*.45,20],[W*.32,H*.42,24],[W*.44,H*.44,22],
+   [W*.54,H*.41,26],[W*.65,H*.44,20],[W*.74,H*.42,24],[W*.83,H*.44,22],[W*.92,H*.42,26]
+  ].forEach(([x,y,h])=>coniferTree(c,x,y,h,'rgba(12,40,16,1)','rgba(3,14,5,1)'));
+
+  // ── 地面（両岸・くっきりグリーン） ──
+  c.fillStyle='rgba(10,48,15,1)';c.fillRect(0,H*.48,W,H*.52);
+  c.strokeStyle='rgba(3,18,5,1)';c.lineWidth=2.5;
   c.beginPath();for(let x=0;x<=W;x+=5){const y=H*.48+Math.sin(x*.03+p*.08)*4;x===0?c.moveTo(x,y):c.lineTo(x,y);}c.stroke();
 
-  // 川（台形・遠近感）
-  c.fillStyle='#3a5868';
-  c.beginPath();c.moveTo(W*.34,H*.48);c.lineTo(W*.66,H*.48);c.lineTo(W*.9,H*.9);c.lineTo(W*.1,H*.9);c.closePath();c.fill();
+  // 川（台形・遠近感・画面下端まで）
+  const riverG=c.createLinearGradient(0,H*.48,0,H);
+  riverG.addColorStop(0,'rgba(14,38,72,1)');riverG.addColorStop(1,'rgba(18,52,90,1)');
+  c.fillStyle=riverG;
+  c.beginPath();c.moveTo(W*.34,H*.48);c.lineTo(W*.66,H*.48);
+  c.lineTo(W,H);c.lineTo(0,H);c.closePath();c.fill();
 
-  // 川の波
-  for(let row=0;row<7;row++){
-    const t=row/6;
-    const lx=W*.1+t*(W*.34-W*.1);
-    const rx=W*.9-t*(W*.9-W*.66);
-    const cy=H*.48+t*(H*.9-H*.48);
-    const amp=1.2+t*3.5,freq=.08-t*.04,sp=.6+t*1.0;
-    c.strokeStyle=`rgba(50,85,105,${.2+t*.22})`;c.lineWidth=.8+t*1.5;
+  // 川の波（10段・下端まで）
+  for(let row=0;row<10;row++){
+    const t=row/9;
+    const lx=W*.34*(1-t);
+    const rx=W-W*.34*(1-t);
+    const cy=H*.48+t*(H-H*.48);
+    const amp=1+t*6,freq=.08-t*.05,sp=.5+t*1.2;
+    c.strokeStyle=`rgba(30,75,110,${.22+t*.25})`;c.lineWidth=.7+t*2;
     c.beginPath();
     for(let xi=0;xi<=(rx-lx);xi+=3){
-      const wy=cy+Math.sin(xi*freq+p*sp+row)*amp;
+      const wy=cy+Math.sin(xi*freq+p*sp+row*1.3)*amp;
       xi===0?c.moveTo(lx+xi,wy):c.lineTo(lx+xi,wy);
     }
     c.stroke();
   }
 
-  // 川の中の飛び石（3個・遠近感）
-  [[W*.5,H*.62,18,9],[W*.44,H*.72,24,11],[W*.56,H*.78,20,9]].forEach(([sx,sy,rx,ry],i)=>{
-    c.fillStyle='#506065';
+  // 飛び石（3個・より手前まで）
+  [[W*.5,H*.58,14,7,1],[W*.44,H*.7,22,10,2],[W*.56,H*.82,28,13,3]].forEach(([sx,sy,rx,ry],i)=>{
+    c.fillStyle='rgba(55,72,78,1)';
     c.beginPath();c.ellipse(sx,sy,rx,ry,0,0,Math.PI*2);c.fill();
-    c.strokeStyle='rgba(30,45,50,.8)';c.lineWidth=1.5;
+    c.strokeStyle='rgba(18,28,32,1)';c.lineWidth=2+i*.4;
     c.beginPath();c.ellipse(sx,sy,rx,ry,0,0,Math.PI*2);c.stroke();
-    // 石の上面の光沢・苔
-    c.fillStyle='rgba(55,75,60,.4)';c.beginPath();c.ellipse(sx-3,sy-2,rx*.5,ry*.4,0,0,Math.PI*2);c.fill();
-    // 水の波紋
-    c.strokeStyle=`rgba(55,90,110,${.25+Math.sin(p*.8+i)*.08})`;c.lineWidth=1;
-    c.beginPath();c.ellipse(sx,sy+ry+4,rx*.9,5,0,0,Math.PI*2);c.stroke();
+    c.fillStyle='rgba(28,55,32,1)';c.beginPath();c.ellipse(sx-rx*.2,sy-ry*.25,rx*.42,ry*.36,0,0,Math.PI*2);c.fill();
+    c.strokeStyle='rgba(16,24,28,1)';c.lineWidth=.9;
+    c.beginPath();c.moveTo(sx-rx*.4,sy-ry*.1);c.quadraticCurveTo(sx,sy+ry*.1,sx+rx*.4,sy-ry*.1);c.stroke();
+    c.strokeStyle=`rgba(30,75,108,${.3+Math.sin(p*.8+i)*.1})`;c.lineWidth=1.2;
+    c.beginPath();c.ellipse(sx,sy+ry+4,rx*.9,4+i,0,0,Math.PI*2);c.stroke();
   });
 
   // 木製アーチ橋
@@ -1262,9 +1278,9 @@ function drawRiver(W,H){
 function drawSea(W,H){
 
   const c=bgCtx;const p=bgPhase;
-  // どんより空（重い曇り）
+  // ── 空（深い夜空・青みを強く） ──
   const sky=c.createLinearGradient(0,0,0,H*.45);
-  sky.addColorStop(0,'#2a3a42');sky.addColorStop(.5,'#384e5a');sky.addColorStop(1,'#405860');
+  sky.addColorStop(0,'rgba(3,8,26,1)');sky.addColorStop(.45,'rgba(6,16,48,1)');sky.addColorStop(1,'rgba(10,24,58,1)');
   c.fillStyle=sky;c.fillRect(0,0,W,H*.45);
 
   // 重たい雲（低く）
@@ -1278,7 +1294,7 @@ function drawSea(W,H){
 
   // 海面
   const sea=c.createLinearGradient(0,hz,0,H);
-  sea.addColorStop(0,'#3a5262');sea.addColorStop(1,'#283848');
+  sea.addColorStop(0,'rgba(10,30,65,1)');sea.addColorStop(1,'rgba(5,18,45,1)');
   c.fillStyle=sea;c.fillRect(0,hz,W,H-hz);
 
   // 海の波（ムーミン風・太め）
@@ -1424,9 +1440,9 @@ function drawSea(W,H){
 function drawMountain(W,H){
 
   const c=bgCtx;const p=bgPhase;
-  // どんより空（嵐前）
+  // ── 空（嵐の漆黒・深い青） ──
   const sky=c.createLinearGradient(0,0,0,H*.5);
-  sky.addColorStop(0,'#1e2a30');sky.addColorStop(.4,'#2a3c40');sky.addColorStop(1,'#344a46');
+  sky.addColorStop(0,'rgba(2,5,16,1)');sky.addColorStop(.4,'rgba(4,10,28,1)');sky.addColorStop(1,'rgba(6,14,36,1)');
   c.fillStyle=sky;c.fillRect(0,0,W,H);
 
   // 重い嵐雲
@@ -1828,7 +1844,7 @@ function triggerClear(){
     document.getElementById('clear-drop-label').textContent=
       currentStage===3?'虹のしずく 全部そろった！':'虹のしずく 発見！';
     document.getElementById('clear-drop-sub').textContent=
-      `これで ${currentStage+1} 個目！合計 ${totalScore} 点`;
+      `${currentStage+1} / 4 個目`;  // 合計点数なし
     const vw=document.getElementById('voices-wrap');vw.innerHTML='';
     st.voices.forEach((v,i)=>{setTimeout(()=>{const b=document.createElement('div');b.className='voice-bub';b.style.animationDelay='0s';b.innerHTML=`<span class="v-icon">${v.icon}</span><span class="v-text">${v.text}</span>`;vw.appendChild(b);},900+i*320);});
     overlay.style.display='flex';
@@ -1839,7 +1855,7 @@ function triggerClear(){
 //  GAME CORE
 // ══════════════════════════════════════
 let totalScore=0,notes=[],running=false,currentStage=0;
-const GAME_H=365,HIT_Y=GAME_H-96,PERFECT_W=190,GOOD_W=400;
+const GAME_H=420,HIT_Y=GAME_H-96,PERFECT_W=190,GOOD_W=400;
 let isPaused=false,autoTimer=null;
 const AUTO_SEC=8000;
 
@@ -1935,8 +1951,8 @@ function triggerEnding(){
   const msgEl=document.getElementById('ending-message');
   msgEl.textContent='';
   // 明るい背景に合わせてテキスト色を変更
-  msgEl.style.color='rgba(30,80,20,.92)';
-  msgEl.style.textShadow='0 1px 3px rgba(255,255,255,.6)';
+  msgEl.style.color='rgba(235,248,255,1)';
+  msgEl.style.textShadow='0 1px 0 rgba(0,0,0,1),0 0 10px rgba(0,0,0,1),0 0 24px rgba(0,0,0,.9),1px 1px 4px rgba(0,0,0,1)';
   setTimeout(()=>{
     const typeTimer=setInterval(()=>{
       if(charIdx<msg.length){msgEl.textContent+=msg[charIdx];charIdx++;}
@@ -1955,8 +1971,8 @@ function triggerEnding(){
   endVoices.forEach((v,i)=>{
     setTimeout(()=>{
       const b=document.createElement('div');b.className='end-voice';
-      b.style.cssText='animation-delay:0s;background:rgba(255,255,255,.75);border:1px solid rgba(80,160,60,.3)';
-      b.innerHTML=`<span class="v-icon" style="font-size:22px;flex-shrink:0">${v.icon}</span><span style="font-size:12px;line-height:1.5;color:rgba(20,70,15,.9)">${v.text}</span>`;
+      b.style.animationDelay='0s';
+      b.innerHTML=`<span class="v-icon" style="font-size:20px;flex-shrink:0;filter:drop-shadow(0 1px 4px rgba(0,0,0,.9))">${v.icon}</span><span style="font-size:12px;line-height:1.5;color:rgba(235,248,255,1);text-shadow:0 1px 0 rgba(0,0,0,1),0 0 8px rgba(0,0,0,1),1px 1px 3px rgba(0,0,0,1)">${v.text}</span>`;
       vw.appendChild(b);
     },2800+i*500);
   });
