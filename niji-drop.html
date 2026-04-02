@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>雨のメロディ</title>
+<title>NijiDrop - 虹のしずく</title>
 <link href="https://fonts.googleapis.com/css2?family=Kosugi+Maru&family=Nunito:wght@900&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;touch-action:manipulation}
@@ -399,7 +399,7 @@ body{font-family:'Kosugi Maru',sans-serif;background:#0d1b33;
     <div class="pro-char">👧</div>
     <div class="pro-title">
       <span class="t-niji">Niji</span><span class="t-drop">Drop</span>
-      <span class="t-sub">にじのしずく</span>
+      <span class="t-sub">虹のしずく</span>
     </div>
     <div class="pro-body">
       空で虹を守る女の子、<b>にじこ</b>が、大切な「虹のしずく」を落としてしまった！<br><br>
@@ -2057,15 +2057,20 @@ p.style.cssText=`width:${sz}px;height:${sz*ratio}px;background:${col};left:${Mat
 
 function replayGame(){
   stopEndCanvas();
+  // エンディング画面をリセット
   document.getElementById('ending-overlay').style.display='none';
   document.getElementById('ending-rainbow').classList.remove('show');
   document.getElementById('ending-voices').innerHTML='';
   document.getElementById('ending-message').textContent='';
   document.querySelectorAll('.end-particle').forEach(p=>p.remove());
+  // ゲーム状態リセット
   [0,1,2,3].forEach(i=>document.getElementById('pip'+i).classList.remove('lit'));
-  currentStage=0;totalScore=0;isPaused=false;
+  currentStage=0;totalScore=0;isPaused=false;running=false;
   document.getElementById('pause-btn').textContent='⏸ 休む';
-  applyStage(0);
+  stopBGM(0);
+  // オープニング画面へ戻る
+  document.getElementById('prologue').style.display='flex';
+  startProCanvas();
 }
 
 // ══════════════════════════════════════
